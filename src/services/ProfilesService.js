@@ -7,6 +7,7 @@ class ProfilesService{
   async getProfileById(profileId) {
     AppState.activeProfile = null
     const response = await api.get(`api/profiles/${profileId}`)
+    logger.log('here is your profile', response.data)
     const profile = new Account(response.data)
     AppState.activeProfile = profile
   }
