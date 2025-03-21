@@ -1,12 +1,21 @@
 <script setup>
 import { Post } from '@/models/Post.js';
-
-
-
+import { postsService } from '@/services/PostsService.js';
+import { logger } from '@/utils/Logger.js';
+import { Pop } from '@/utils/Pop.js';
 
 defineProps({
   postProp: { type: Post, required: true }
 })
+
+async function likePost(id) {
+  try {
+    await postsService.likePost(id)
+  } catch (error) {
+    Pop.error(error, 'Could not like post')
+    logger.log('COULD NOT LIKE POST', error)
+  }
+}
 
 </script>
 
@@ -15,7 +24,9 @@ defineProps({
   <div class="shadow-lg mt-4 rounded-4">
     <div class="d-flex justify-content-between p-3">
       <div class="d-flex align-items-center gap-3 ">
-        <img class="profile-img" :src="postProp.creator.picture" alt="">
+        <RouterLink :to="{ name: 'Profile', params: { profileId: postProp.creatorId } }">
+          <img class="profile-img" :src="postProp.creator.picture" alt="">
+        </RouterLink>
         <p class="fs-4">{{ postProp.creator.name }}</p>
       </div>
       <div class="d-flex gap-3">
@@ -32,6 +43,10 @@ defineProps({
         {{ postProp.body }}
       </p>
       <img v-if="postProp.imgUrl" class="post-img" :src="postProp.imgUrl" alt="">
+    </div>
+    <div class="fs-4 p-3 d-flex justify-content-end gap-3">
+      <span @click="likePost(postProp.id)" type="button" title="click to like" class="mdi mdi-heart"></span>
+      <p>{{ postProp.likes.length }}</p>
     </div>
   </div>
 </template>

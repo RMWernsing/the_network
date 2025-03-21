@@ -4,12 +4,27 @@ import { Post } from "@/models/Post.js"
 import { AppState } from "@/AppState.js"
 
 class PostsService{
+  async likePost(id) {
+    const response = await api.post(`api/posts/${id}/like`)
+    const updatedPost = response.data
+    const postIndex = AppState.posts.findIndex(post => post.id == id)
+    AppState.posts[postIndex] = new Post(updatedPost)
+  }
   async getPosts() {
     const response = await api.get('api/posts')
-    logger.log('here are all your posts', response.data.posts)
     const posts = response.data.posts.map(pojo => new Post(pojo))
     AppState.posts = posts
+    AppState.currentPage = response.data.page
+    AppState.totalPages = response.data.totalPages
   }
+  
+  async changePage(pageNumber) {
+    const response = await api.get(`api/posts?page=${pageNumber}`)
+    const posts = response.data.posts.map(pojo => new Post(pojo))
+    AppState.posts = posts
+    AppState.currentPage = pageNumber
+  }
+
 }
 
 export const postsService = new PostsService()
