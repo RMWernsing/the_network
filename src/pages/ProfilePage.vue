@@ -1,12 +1,14 @@
 <script setup>
+import { AppState } from '@/AppState.js';
 import { profilesService } from '@/services/ProfilesService.js';
 import { logger } from '@/utils/Logger.js';
 import { Pop } from '@/utils/Pop.js';
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 
 
 const route = useRoute()
+const profile = computed(() => AppState.activeProfile)
 
 onMounted(() => {
   getProfileById()
@@ -29,8 +31,8 @@ async function getProfileById() {
 <template>
   <section class="container">
     <div class="row">
-      <div class="col-12 bg-danger">
-        im here
+      <div v-if="profile" class="col-12 h-100" :style="{ backgroundImage: `url(${profile.coverImg})` }">
+
       </div>
     </div>
   </section>

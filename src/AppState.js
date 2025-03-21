@@ -10,6 +10,8 @@ export const AppState = reactive({
   posts: [],
   /** @type {import('./models/Add.js').Add[]} user info from the database*/
   adds: [],
+  /** @type {import('./models/Account.js').Account} user info from the database*/
+  activeProfile: null,
   currentPage: 0,
   totalPages: 0,
 })
