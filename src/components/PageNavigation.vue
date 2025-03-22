@@ -24,6 +24,9 @@ async function changePage(pageNumber) {
 
 <template>
   <button @click="changePage(currentPage - 1)" class="btn btn-indigo" :disabled="currentPage <= 1">Newer</button>
+  <div>
+    page: {{ currentPage }} of: {{ totalPages }}
+  </div>
   <button @click="changePage(currentPage + 1)" class="btn btn-indigo"
     :disabled="currentPage == totalPages">Older</button>
 </template>

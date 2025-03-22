@@ -1,8 +1,12 @@
 <script setup>
+import { AppState } from '@/AppState.js';
 import { Post } from '@/models/Post.js';
 import { postsService } from '@/services/PostsService.js';
 import { logger } from '@/utils/Logger.js';
 import { Pop } from '@/utils/Pop.js';
+import { computed } from 'vue';
+
+const account = computed(() => AppState.account)
 
 defineProps({
   postProp: { type: Post, required: true }
@@ -44,9 +48,16 @@ async function likePost(id) {
       </p>
       <img v-if="postProp.imgUrl" class="post-img" :src="postProp.imgUrl" alt="">
     </div>
-    <div class="fs-4 p-3 d-flex justify-content-end gap-3">
-      <span @click="likePost(postProp.id)" type="button" title="click to like" class="mdi mdi-heart"></span>
-      <p>{{ postProp.likes.length }}</p>
+    <div v-if="account" class="fs-4 p-3 d-flex justify-content-end gap-3">
+      <div v-if="postProp.likes.find(like => like.id == account.id)">
+        <span v-if="postProp.likes.find(like => like.id == account.id)" @click="likePost(postProp.id)" type="button"
+          title="click to like" class="mdi mdi-heart"></span>
+        <span>{{ postProp.likes.length }}</span>
+      </div>
+      <div v-else>
+        <span @click="likePost(postProp.id)" type="button" title="click to like" class="mdi mdi-heart-outline"></span>
+        <span>{{ postProp.likes.length }}</span>
+      </div>
     </div>
   </div>
 </template>

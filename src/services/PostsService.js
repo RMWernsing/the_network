@@ -5,7 +5,6 @@ import { AppState } from "@/AppState.js"
 
 class PostsService{
   
-  
   async likePost(id) {
     const response = await api.post(`api/posts/${id}/like`)
     const updatedPost = response.data
@@ -55,7 +54,12 @@ class PostsService{
     AppState.posts = posts
     AppState.currentPage = response.data.page
     AppState.totalPages = response.data.totalPages
+    
+  }
 
+  async createPost(postData) {
+    const response = await api.post('api/posts', postData)
+    logger.log('here is your post', response.data)
   }
 }
 

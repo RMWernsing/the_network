@@ -65,6 +65,6 @@ a {
 }
 
 .bg-light-blue {
-  background-color: rgb(2, 247, 227);
+  background-color: rgb(100, 235, 223);
 }
 </style>
