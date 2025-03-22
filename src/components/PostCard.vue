@@ -17,12 +17,24 @@ async function likePost(id) {
     await postsService.likePost(id)
   } catch (error) {
     Pop.error(error, 'Could not like post')
-    logger.log('COULD NOT LIKE POST', error)
+    logger.error('COULD NOT LIKE POST', error)
+  }
+}
+
+async function deletePost(postId) {
+  try {
+    await postsService.deletePost(postId)
+  }
+  catch (error) {
+    Pop.error(error, 'Could not delete post')
+    logger.error('COULD NOT DELETE POST', error)
   }
 }
 
 </script>
-
+<!-- <span @click="deletePost(postProp.id)"
+            v-if="postProp.creatorId == account.id" class="mdi mdi-trash-can-outline text-danger" type="button"
+            title="delete post"></span> -->
 
 <template>
   <div class="shadow-lg mt-4 rounded-4">
@@ -31,7 +43,7 @@ async function likePost(id) {
         <RouterLink :to="{ name: 'Profile', params: { profileId: postProp.creatorId } }">
           <img class="profile-img" :src="postProp.creator.picture" alt="">
         </RouterLink>
-        <p class="fs-4">{{ postProp.creator.name }}</p>
+        <p class="fs-4">{{ postProp.creator.name }} </p>
       </div>
       <div class="d-flex gap-3">
         <p>

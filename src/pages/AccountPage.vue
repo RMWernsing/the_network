@@ -32,7 +32,7 @@ async function updateAccount() {
   }
   catch (error) {
     Pop.error(error, 'Could not update account')
-    logger.log('COULD NOT UPDATE ACCOUNT', error)
+    logger.error('COULD NOT UPDATE ACCOUNT', error)
   }
 }
 

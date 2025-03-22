@@ -49,7 +49,7 @@ async function createPost() {
   }
   catch (error) {
     Pop.error(error, 'Could not create post')
-    logger.log('COULD NOT CREATE POST', error)
+    logger.error('COULD NOT CREATE POST', error)
   }
 }
 

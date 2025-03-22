@@ -32,7 +32,7 @@ async function getProfileById() {
   }
   catch (error) {
     Pop.error(error, 'Could not get profile by id')
-    logger.log('COULD NOT GET PROFILE BY ID', error)
+    logger.error('COULD NOT GET PROFILE BY ID', error)
   }
 }
 
@@ -64,7 +64,7 @@ async function changeProfilePageNewer(pageNumber, id) {
   }
   catch (error) {
     Pop.error(error, 'Could not change page')
-    logger.log('COULD NOT CHANGE PAGE', error)
+    logger.error('COULD NOT CHANGE PAGE', error)
   }
 }
 
@@ -74,7 +74,7 @@ async function changeProfilePageOlder(pageNumber, id) {
   }
   catch (error) {
     Pop.error(error, 'Could not change page')
-    logger.log('COULD NOT CHANGE PAGE', error)
+    logger.error('COULD NOT CHANGE PAGE', error)
   }
 }
 

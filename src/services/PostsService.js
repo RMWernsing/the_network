@@ -36,7 +36,7 @@ class PostsService{
     AppState.currentPage = response.data.page
     AppState.totalPages = response.data.totalPages
   }
-
+  
   async changeProfilePageNewer(pageNumber, id) {
     AppState.posts = []
     const response = await api.get(`api/posts?creatorId=${id}&page=${pageNumber}`)
@@ -44,9 +44,9 @@ class PostsService{
     AppState.posts = posts
     AppState.currentPage = response.data.page
     AppState.totalPages = response.data.totalPages
-
+    
   }
-
+  
   async changeProfilePageOlder(pageNumber, id) {
     AppState.posts = []
     const response = await api.get(`api/posts?creatorId=${id}&page=${pageNumber}`)
@@ -60,6 +60,12 @@ class PostsService{
   async createPost(postData) {
     const response = await api.post('api/posts', postData)
     logger.log('here is your post', response.data)
+    
+  }
+
+  async deletePost(postId) {
+    const response = await api.delete(`api/posts/${postId}`)
+    logger.log('deleteing this post ', response.data)
   }
 }
 
