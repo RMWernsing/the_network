@@ -46,6 +46,10 @@ async function getAds() {
 async function createPost() {
   try {
     await postsService.createPost(editablePostData.value)
+    editablePostData.value = {
+      body: '',
+      imgUrl: '',
+    }
   }
   catch (error) {
     Pop.error(error, 'Could not create post')

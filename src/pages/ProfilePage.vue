@@ -97,7 +97,7 @@ async function changeProfilePageOlder(pageNumber, id) {
           <img :src="adds[1].banner" alt="">
         </div>
       </div>
-      <div class="mt-3 d-flex justify-content-center gap-5">
+      <div v-if="totalPages > 1" class="mt-3 d-flex justify-content-center gap-5">
         <button @click="changeProfilePageNewer(currentPage - 1, profile.id)" class="btn btn-indigo"
           :disabled="currentPage <= 1">Newer</button>
         <div>
@@ -111,7 +111,7 @@ async function changeProfilePageOlder(pageNumber, id) {
           <PostCard :postProp="post" />
         </div>
       </div>
-      <div class="mt-3 d-flex justify-content-center gap-5 my-4">
+      <div v-if="totalPages > 1" class="mt-3 d-flex justify-content-center gap-5 my-4">
         <button @click="changeProfilePageNewer(currentPage - 1, profile.id)" class="btn btn-indigo"
           :disabled="currentPage <= 1">Newer</button>
         <div>

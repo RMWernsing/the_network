@@ -2,6 +2,8 @@
 import { AppState } from '@/AppState.js';
 import ProfileCard from '@/components/ProfileCard.vue';
 import { accountService } from '@/services/AccountService.js';
+import { addsService } from '@/services/AddsService.js';
+import { profilesService } from '@/services/ProfilesService.js';
 import { logger } from '@/utils/Logger.js';
 import { Pop } from '@/utils/Pop.js';
 import { computed, onMounted, ref } from 'vue';
@@ -20,10 +22,25 @@ const editableAccountData = ref({
 
 const account = computed(() => AppState.account)
 const profile = computed(() => AppState.activeProfile)
+const adds = computed(() => AppState.adds || [])
+const isLoading = ref(true)
+
 
 onMounted(() => {
-
+  getAds()
 })
+
+onMounted(async () => {
+  try {
+    await accountService.getAccount();
+    if (AppState.account) {
+      await profilesService.getProfileById(AppState.account.id);
+    }
+    isLoading.value = false;
+  } catch (error) {
+    logger.error('Error fetching account or profile:', error);
+  }
+});
 
 async function updateAccount() {
   try {
@@ -36,12 +53,27 @@ async function updateAccount() {
   }
 }
 
+async function getAds() {
+  try {
+    await addsService.getAds()
+  }
+  catch (error) {
+    Pop.error(error, 'Could not get ads')
+    logger.error('COULD NOT GET ADS', error)
+  }
+}
+
 </script>
 
 <template>
   <h1 class="text-center">account editor</h1>
   <section class="container">
     <div class="row justify-content-center">
+      <div class="col-12">
+        <div v-if="adds && adds.length > 0" class="d-flex justify-content-center">
+          <img :src="adds[0].banner" alt="">
+        </div>
+      </div>
       <div class="col-md-6">
         <form @submit.prevent="updateAccount()">
           <label for="name">Name</label>
@@ -67,13 +99,26 @@ async function updateAccount() {
           <button type="submit" class="btn btn-success">submit</button>
         </form>
       </div>
+      <div class="col-md-6">
+        <div v-if="!account">
+          <p class="text-center fs-1">Loading... <span class="mdi mdi-loading mdi-spin"></span></p>
+        </div>
+        <div v-else-if="profile">
+          <ProfileCard />
+        </div>
+      </div>
+      <div class="col-12">
+        <div v-if="adds && adds.length > 0" class="d-flex justify-content-center">
+          <img :src="adds[1].banner" alt="">
+        </div>
+      </div>
     </div>
   </section>
 </template>
 
 <style scoped lang="scss">
 img {
-  max-width: 100px;
+  max-width: 100%;
 }
 
 label {

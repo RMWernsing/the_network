@@ -16,6 +16,7 @@ class AccountService {
   async updateAccount(accountData) {
     const response = await api.put('account', accountData)
     AppState.account = new Account(response.data)
+    AppState.activeProfile = new Account(response.data)
   }
 }
 

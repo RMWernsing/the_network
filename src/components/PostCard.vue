@@ -23,6 +23,10 @@ async function likePost(id) {
 
 async function deletePost(postId) {
   try {
+    const confirmed = await Pop.confirm('Are you sure you want to delete this post?', 'It will be gone forever.', 'YES', 'NO')
+    if (!confirmed) {
+      return
+    }
     await postsService.deletePost(postId)
   }
   catch (error) {
@@ -43,7 +47,9 @@ async function deletePost(postId) {
         <RouterLink :to="{ name: 'Profile', params: { profileId: postProp.creatorId } }">
           <img class="profile-img" :src="postProp.creator.picture" alt="">
         </RouterLink>
-        <p class="fs-4">{{ postProp.creator.name }} </p>
+        <p class="fs-4">{{ postProp.creator.name }} <span v-if="account && postProp && account.id == postProp.creatorId"
+            @click="deletePost(postProp.id)" class="mdi mdi-trash-can-outline text-danger" type="button"
+            title="delete post"></span></p>
       </div>
       <div class="d-flex gap-3">
         <p>
