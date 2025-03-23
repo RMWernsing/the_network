@@ -107,7 +107,7 @@ async function changeProfilePageOlder(pageNumber, id) {
           :disabled="currentPage == totalPages">Older</button>
       </div>
       <div class="row justify-content-center">
-        <div v-for="post in posts" :key="post.id" class="col-md-7">
+        <div v-for="post in posts" :key="post.id" class="col-md-7 mb-3">
           <PostCard :postProp="post" />
         </div>
       </div>

@@ -4,13 +4,12 @@ import { computed } from 'vue';
 
 
 const profile = computed(() => AppState.activeProfile)
-const account = computed(() => AppState.account)
 
 </script>
 
 
 <template>
-  <div v-if="account" class="d-flex justify-content-center bg-img my-3 rounded-4"
+  <div class="d-flex justify-content-center bg-img my-3 rounded-4"
     :style="{ backgroundImage: `url(${profile?.coverImg})` }">
     <div class="d-flex flex-column text-light text-shadow">
       <h2 class="text-center mt-2 fs-1">

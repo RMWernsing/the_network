@@ -77,6 +77,8 @@ class PostsService{
     const response = await api.get(`api/posts?query=${searchData}`)
     const posts = response.data.posts.map(pojo => new Post(pojo))
     AppState.posts = posts
+    AppState.currentPage = response.data.page
+    AppState.totalPages = response.data.totalPages
   }
 }
 

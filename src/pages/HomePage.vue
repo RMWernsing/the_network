@@ -83,6 +83,19 @@ async function searchPost() {
               <h1>The Network Home Page</h1>
             </div>
             <div class="row justify-content-between">
+              <div class="col-md-4">
+                <h2>Search</h2>
+                <form @submit.prevent="searchPost()">
+                  <label for="search">Search For Posts</label>
+                  <input v-model="editableSearchData.query" type="text" name="search" id="search" maxlength="200">
+                  <div class="d-flex justify-content-between">
+                    <button class="btn btn-success mt-3" type="submit">Search<span class="mdi mdi-magnify"></span>
+                    </button>
+                    <button @click="getPosts()" class="btn btn-danger mt-3" type="button">Reset Search<span
+                        class="mdi mdi-refresh"></span></button>
+                  </div>
+                </form>
+              </div>
               <div v-if="account" class="col-md-4">
                 <h2>Submit Post</h2>
                 <form @submit.prevent="createPost()">
@@ -92,16 +105,6 @@ async function searchPost() {
                   <label for="imgUrl">Image</label>
                   <input v-model="editablePostData.imgUrl" type="url" name="imgUrl" id="imgUrl" maxlength="500">
                   <button type="submit" title="submit post" class="btn btn-success mt-3">submit</button>
-                </form>
-              </div>
-              <div class="col-md-4">
-                <h2>Search</h2>
-                <form @submit.prevent="searchPost()">
-                  <label for="search">Search For posts</label>
-                  <input v-model="editableSearchData.query" type="text" name="search" id="search" required
-                    maxlength="200" minlength="1">
-                  <button class="btn btn-success mt-3" type="submit"><span class="mdi mdi-magnify"></span>
-                  </button>
                 </form>
               </div>
             </div>
