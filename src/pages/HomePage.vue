@@ -14,6 +14,10 @@ const editablePostData = ref({
   imgUrl: '',
 })
 
+const editableSearchData = ref({
+  query: '',
+})
+
 const posts = computed(() => AppState.posts)
 const adds = computed(() => AppState.adds)
 const account = computed(() => AppState.account)
@@ -57,6 +61,16 @@ async function createPost() {
   }
 }
 
+async function searchPost() {
+  try {
+    await postsService.searchPost(editableSearchData.value.query)
+    editableSearchData.value.query = ''
+  }
+  catch (error) {
+    Pop.error(error, 'Could not search posts')
+    logger.error('COULD NOT SEARCH POSTS')
+  }
+}
 </script>
 
 <template>
@@ -68,16 +82,28 @@ async function createPost() {
             <div class="d-flex justify-content-center py-3">
               <h1>The Network Home Page</h1>
             </div>
-            <div v-if="account" class="col-md-4">
-              <h2>Submit Post</h2>
-              <form @submit.prevent="createPost()">
-                <label for="body">Text</label>
-                <textarea v-model="editablePostData.body" name="body" id="body" required maxlength="5000"
-                  minlength="1"></textarea>
-                <label for="imgUrl">Image</label>
-                <input v-model="editablePostData.imgUrl" type="url" name="imgUrl" id="imgUrl" maxlength="500">
-                <button type="submit" title="submit post" class="btn btn-success mt-3">submit</button>
-              </form>
+            <div class="row justify-content-between">
+              <div v-if="account" class="col-md-4">
+                <h2>Submit Post</h2>
+                <form @submit.prevent="createPost()">
+                  <label for="body">Text</label>
+                  <textarea v-model="editablePostData.body" name="body" id="body" required maxlength="5000"
+                    minlength="1"></textarea>
+                  <label for="imgUrl">Image</label>
+                  <input v-model="editablePostData.imgUrl" type="url" name="imgUrl" id="imgUrl" maxlength="500">
+                  <button type="submit" title="submit post" class="btn btn-success mt-3">submit</button>
+                </form>
+              </div>
+              <div class="col-md-4">
+                <h2>Search</h2>
+                <form @submit.prevent="searchPost()">
+                  <label for="search">Search For posts</label>
+                  <input v-model="editableSearchData.query" type="text" name="search" id="search" required
+                    maxlength="200" minlength="1">
+                  <button class="btn btn-success mt-3" type="submit"><span class="mdi mdi-magnify"></span>
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>

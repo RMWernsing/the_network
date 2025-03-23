@@ -11,7 +11,7 @@ class PostsService{
     const postIndex = AppState.posts.findIndex(post => post.id == id)
     AppState.posts[postIndex] = new Post(updatedPost)
   }
-
+  
   async getPosts() {
     const response = await api.get('api/posts')
     const posts = response.data.posts.map(pojo => new Post(pojo))
@@ -56,7 +56,7 @@ class PostsService{
     AppState.totalPages = response.data.totalPages
     
   }
-
+  
   async createPost(postData) {
     const response = await api.post('api/posts', postData)
     logger.log('here is your post', response.data)
@@ -64,13 +64,19 @@ class PostsService{
     AppState.posts.push(post)
     this.getPosts()
   }
-
+  
   async deletePost(postId) {
     const response = await api.delete(`api/posts/${postId}`)
     logger.log('deleteing this post ', response.data)
     const posts = AppState.posts
     const postIndex = posts.findIndex(post => post.id == postId)
     posts.splice(postIndex, 1)
+  }
+
+  async searchPost(searchData) {
+    const response = await api.get(`api/posts?query=${searchData}`)
+    const posts = response.data.posts.map(pojo => new Post(pojo))
+    AppState.posts = posts
   }
 }
 
