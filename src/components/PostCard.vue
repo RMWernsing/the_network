@@ -77,6 +77,10 @@ async function deletePost(postId) {
         <span>{{ postProp.likes.length }}</span>
       </div>
     </div>
+    <div v-else class="fs-4 p-3 d-flex justify-content-end gap-3">
+      <span disabled title="Login to Like" class="mdi mdi-heart"></span>
+      <span>{{ postProp.likes.length }}</span>
+    </div>
   </div>
 </template>
 
