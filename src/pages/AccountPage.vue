@@ -8,6 +8,11 @@ import { logger } from '@/utils/Logger.js';
 import { Pop } from '@/utils/Pop.js';
 import { computed, onMounted, ref } from 'vue';
 
+const account = computed(() => AppState.account)
+const profile = computed(() => AppState.activeProfile)
+const adds = computed(() => AppState.adds || [])
+const isLoading = ref(true)
+
 const editableAccountData = ref({
   name: '',
   picture: '',
@@ -19,12 +24,6 @@ const editableAccountData = ref({
   graduated: false,
   bio: '',
 })
-
-const account = computed(() => AppState.account)
-const profile = computed(() => AppState.activeProfile)
-const adds = computed(() => AppState.adds || [])
-const isLoading = ref(true)
-
 
 onMounted(() => {
   getAds()
